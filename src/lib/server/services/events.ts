@@ -1,6 +1,6 @@
 import { asc, eq, notInArray, sql } from "drizzle-orm";
 import cron from "node-cron";
-import { db } from "../db";
+import { db, hasDatabase } from "../db";
 import { eventsTable } from "../db/schema";
 import { env } from "$env/dynamic/private";
 import { listRecords } from "./airtable";
@@ -154,6 +154,8 @@ export async function syncEvents(): Promise<number> {
 
 /** Every synced event, alphabetically by name. */
 export async function getEvents(): Promise<HavenEvent[]> {
+  if (!hasDatabase) return [];
+
   return db
     .select({
       id: eventsTable.airtableId,
@@ -180,6 +182,8 @@ export async function getHavenCities(): Promise<City[]> {
 
 /** One event by slug, or null when nothing is synced under that slug. */
 export async function getEventBySlug(slug: string): Promise<HavenEvent | null> {
+  if (!hasDatabase) return null;
+
   const [row] = await db
     .select({
       id: eventsTable.airtableId,
@@ -228,6 +232,10 @@ async function runSync() {
 export function startEventSync() {
   if (!env.AIRTABLE_TOKEN) {
     console.warn("AIRTABLE_TOKEN is not set — Haven event sync is disabled");
+    return;
+  }
+  if (!hasDatabase) {
+    console.warn("DATABASE_URL is not set — Haven event sync is disabled");
     return;
   }
 
