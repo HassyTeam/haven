@@ -5,8 +5,10 @@ import {
   faqCta,
   faqHeading,
   faqs,
+  footerBody,
   heroCopy,
   meta,
+  navLinks,
   organizeCta,
   pastEvents,
   pastEventsHeading,
@@ -32,6 +34,9 @@ import type { SiteData, SiteDataInput } from "./types";
  */
 export const defaultSiteData: SiteData = {
   meta: { title: meta.title, description: meta.description, image: meta.image },
+  nav: Object.fromEntries(
+    navLinks.map((link) => [link.key, link.label]),
+  ) as SiteData["nav"],
   title: [...event.title],
   tagline: [...event.tagline],
   hero: {
@@ -51,6 +56,7 @@ export const defaultSiteData: SiteData = {
   pastEvents: { heading: [...pastEventsHeading], items: pastEvents },
   sponsors: { heading: supportersHeading, items: supporters },
   faq: { heading: faqHeading, cta: faqCta, items: faqs },
+  footer: { body: footerBody },
   images: { ...imageDefaults },
   fonts: {},
 };
@@ -84,6 +90,7 @@ export function resolveSiteData(
       description: data.meta?.description ?? base.meta.description,
       image: data.meta?.image ?? base.meta.image,
     },
+    nav: { ...base.nav, ...defined(data.nav) },
     // Fixed: the page is named after its event, whatever the document says.
     title: [event.name],
     tagline: data.tagline ?? base.tagline,
@@ -134,6 +141,7 @@ export function resolveSiteData(
       cta: data.faq?.cta ?? base.faq.cta,
       items: data.faq?.items ?? base.faq.items,
     },
+    footer: { body: data.footer?.body ?? base.footer.body },
     images: { ...imageDefaults, ...defined(data.images) } as SiteImages,
     fonts: defined(data.fonts),
   };

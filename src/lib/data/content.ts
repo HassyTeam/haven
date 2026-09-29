@@ -493,8 +493,11 @@ export const footerBody: Linked[] = [
   [{ text: "Made with ♥ by teenagers, for teenagers at Hack Club" }],
 ];
 
-export const navLinks: Link[] = [
-  { label: "Sign up", href: "#top" },
-  { label: "About", href: "#about" },
-  { label: "FAQ", href: "#faq" },
-];
+/** Keyed so a city page can reword a label without touching where it goes. */
+export const navLinks = [
+  { key: "signup", label: "Sign up", href: "#top" },
+  { key: "about", label: "About", href: "#about" },
+  { key: "faq", label: "FAQ", href: "#faq" },
+] as const satisfies (Link & { key: string })[];
+
+export type NavKey = (typeof navLinks)[number]["key"];

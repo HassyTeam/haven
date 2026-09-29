@@ -1,4 +1,5 @@
 import z from "zod";
+import type { NavKey } from "./content";
 import type { SiteFonts } from "./fonts";
 import { imageKeys, type ImageKey, type SiteImages } from "./images";
 
@@ -156,6 +157,8 @@ const fontSchema = z
   .transform((value) => (typeof value === "string" ? { family: value } : value));
 
 export interface SiteData {
+  /** Labels only; where each link goes is fixed. */
+  nav: Record<NavKey, string>;
   meta: { title: string | undefined; description: string; image: string };
   /** Always the event's own name; a city page cannot rename itself. */
   title: string[];
@@ -177,6 +180,8 @@ export interface SiteData {
   pastEvents: { heading: string[]; items: PastEvent[] };
   sponsors: { heading: string; items: Sponsor[] };
   faq: { heading: string; cta: string; items: FaqItem[] };
+  /** The "who is Hack Club" paragraphs; the Hack Club links stay fixed. */
+  footer: { body: Linked[] };
   images: SiteImages;
   /** Only the roles a page overrides; the rest keep Haven's fonts. */
   fonts: SiteFonts;
@@ -204,6 +209,13 @@ export const siteDataInputSchema = z.object({
       title: z.string().optional(),
       description: z.string().optional(),
       image: srcSchema.optional(),
+    })
+    .optional(),
+  nav: z
+    .object({
+      signup: z.string().optional(),
+      about: z.string().optional(),
+      faq: z.string().optional(),
     })
     .optional(),
   tagline: z.string().array().optional(),
@@ -262,6 +274,7 @@ export const siteDataInputSchema = z.object({
     })
     .optional(),
   faq: faqSectionSchema.optional(),
+  footer: z.object({ body: linkedSchema.array().optional() }).optional(),
   images: imagesSchema.optional(),
   fonts: z
     .object({ display: fontSchema.optional(), body: fontSchema.optional() })

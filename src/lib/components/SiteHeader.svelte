@@ -1,15 +1,21 @@
 <script lang="ts">
-  // The same three links on every page, city or not.
+  // The same three links on every page, city or not; only the labels change.
   import { navLinks } from "$lib/data/content";
   import { defaultSiteData } from "$lib/data/site";
   import type { SiteImages } from "$lib/data/images";
+  import type { SiteData } from "$lib/data/types";
 
   interface Props {
     poc?: boolean;
     images?: SiteImages;
+    nav?: SiteData["nav"];
   }
 
-  let { poc = false, images = defaultSiteData.images }: Props = $props();
+  let {
+    poc = false,
+    images = defaultSiteData.images,
+    nav = defaultSiteData.nav,
+  }: Props = $props();
 
   let scrolled = $state(false);
 
@@ -66,7 +72,7 @@
             href={link.href}
             class="inline-block py-1 font-display text-[clamp(1rem,3.5vw,8rem)] leading-none tracking-[-0.03em] text-haven-yellow transition-colors hover:text-white"
           >
-            {link.label}
+            {nav[link.key]}
           </a>
         </li>
       {/each}
