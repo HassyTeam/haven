@@ -6,6 +6,7 @@ import {
   faqHeading,
   faqs,
   footerBody,
+  footerLinks,
   heroCopy,
   meta,
   navLinks,
@@ -56,7 +57,12 @@ export const defaultSiteData: SiteData = {
   pastEvents: { heading: [...pastEventsHeading], items: pastEvents },
   sponsors: { heading: supportersHeading, items: supporters },
   faq: { heading: faqHeading, cta: faqCta, items: faqs },
-  footer: { body: footerBody },
+  footer: {
+    body: footerBody,
+    links: Object.fromEntries(
+      footerLinks.map((link) => [link.key, link.label]),
+    ) as SiteData["footer"]["links"],
+  },
   images: { ...imageDefaults },
   fonts: {},
 };
@@ -141,7 +147,10 @@ export function resolveSiteData(
       cta: data.faq?.cta ?? base.faq.cta,
       items: data.faq?.items ?? base.faq.items,
     },
-    footer: { body: data.footer?.body ?? base.footer.body },
+    footer: {
+      body: data.footer?.body ?? base.footer.body,
+      links: { ...base.footer.links, ...defined(data.footer?.links) },
+    },
     images: { ...imageDefaults, ...defined(data.images) } as SiteImages,
     fonts: defined(data.fonts),
   };

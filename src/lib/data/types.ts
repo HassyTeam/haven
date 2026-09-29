@@ -1,5 +1,5 @@
 import z from "zod";
-import type { NavKey } from "./content";
+import type { FooterLinkKey, NavKey } from "./content";
 import type { SiteFonts } from "./fonts";
 import { imageKeys, type ImageKey, type SiteImages } from "./images";
 
@@ -180,8 +180,9 @@ export interface SiteData {
   pastEvents: { heading: string[]; items: PastEvent[] };
   sponsors: { heading: string; items: Sponsor[] };
   faq: { heading: string; cta: string; items: FaqItem[] };
-  /** The "who is Hack Club" paragraphs; the Hack Club links stay fixed. */
-  footer: { body: Linked[] };
+  /** The "who is Hack Club" paragraphs, and the labels (not the targets) of
+   * the Hack Club links beside them. */
+  footer: { body: Linked[]; links: Record<FooterLinkKey, string> };
   images: SiteImages;
   /** Only the roles a page overrides; the rest keep Haven's fonts. */
   fonts: SiteFonts;
@@ -274,7 +275,19 @@ export const siteDataInputSchema = z.object({
     })
     .optional(),
   faq: faqSectionSchema.optional(),
-  footer: z.object({ body: linkedSchema.array().optional() }).optional(),
+  footer: z
+    .object({
+      body: linkedSchema.array().optional(),
+      links: z
+        .object({
+          hackClub: z.string().optional(),
+          slack: z.string().optional(),
+          clubs: z.string().optional(),
+          hackathons: z.string().optional(),
+        })
+        .optional(),
+    })
+    .optional(),
   images: imagesSchema.optional(),
   fonts: z
     .object({ display: fontSchema.optional(), body: fontSchema.optional() })

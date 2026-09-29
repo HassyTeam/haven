@@ -438,12 +438,19 @@ export const faqs: { q: string; a: Linked }[] = [
   },
 ];
 
-export const footerLinks: Link[] = [
-  { label: "Hack Club", href: "https://hackclub.com" },
-  { label: "Slack", href: "https://hackclub.com/slack/" },
-  { label: "Clubs", href: "https://hackclub.com/clubs/" },
-  { label: "Hackathons", href: "https://hackathons.hackclub.com" },
-];
+/** Keyed like `navLinks`: a city page may reword a label, never the link. */
+export const footerLinks = [
+  { key: "hackClub", label: "Hack Club", href: "https://hackclub.com" },
+  { key: "slack", label: "Slack", href: "https://hackclub.com/slack/" },
+  { key: "clubs", label: "Clubs", href: "https://hackclub.com/clubs/" },
+  {
+    key: "hackathons",
+    label: "Hackathons",
+    href: "https://hackathons.hackclub.com",
+  },
+] as const satisfies (Link & { key: string })[];
+
+export type FooterLinkKey = (typeof footerLinks)[number]["key"];
 
 /** One entry per paragraph of the "who is Hack Club" blurb in the footer. */
 export const footerBody: Linked[] = [

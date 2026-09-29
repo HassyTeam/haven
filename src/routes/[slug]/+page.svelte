@@ -119,4 +119,4 @@
   />
 </main>
 
-<SiteFooter {images} body={site.footer.body} />
+<SiteFooter {images} footer={site.footer} />

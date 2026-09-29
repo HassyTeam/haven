@@ -405,7 +405,13 @@ in. Copy it, delete what you are not editing, and change the rest.
         { "text": "." }
       ],
       [{ "text": "Made with ♥ by teenagers, for teenagers at Hack Club" }]
-    ]
+    ],
+    "links": {
+      "hackClub": "Hack Club",
+      "slack": "Slack",
+      "clubs": "Clubs",
+      "hackathons": "Hackathons"
+    }
   },
   "fonts": { "display": "Darumadrop One", "body": "Jua" },
   "images": { "hedgehog": "https://example.com/our-mascot.png" }
@@ -550,14 +556,16 @@ left and right, so an even number balances.
 This is the section most worth adding to rather than replacing: copy the default
 list from the template and add your own venue, parking and food questions to it.
 
-### `footer` - the paragraphs at the bottom
+### `footer` - the bottom of the page
 
 `body` is a list of paragraphs, and each paragraph is a list of pieces in the
 same shape as a FAQ answer, so you can put links in the middle of a sentence.
 Setting it replaces all of the default "who is Hack Club" paragraphs, so start
-from the full default text in the template above and edit from there. The Hack
-Club, Slack, Clubs and Hackathons links beside them stay the same on every
-page.
+from the full default text in the template above and edit from there.
+
+`links` holds the words for the four Hack Club links beside the paragraphs
+(`hackClub`, `slack`, `clubs` and `hackathons`), so you can translate or reword
+them. Where they go is fixed, the same as the links in the top-right corner.
 
 ### `fonts` - the lettering
 
@@ -599,13 +607,13 @@ These things are not in the JSON document:
 - **The name at the top**, which always follows your event's name in Airtable.
 - **Where the top-right links go.** Their words are in `nav`, but they always
   point at the same three sections.
-- **The four Hack Club links in the footer** (Hack Club, Slack, Clubs,
-  Hackathons). The paragraphs next to them are in `footer`.
+- **Where the four Hack Club links in the footer go.** Their words are in
+  `footer.links`, but they always point at the same Hack Club pages.
 
 The artwork around them is still yours to change: `logo`, `navBanner` and
-`footerBushes` are all in `images`. If you include a `"title"` key, an `href`
-in `nav` or a `links` list in `footer` anyway, it is ignored rather than
-breaking your document.
+`footerBushes` are all in `images`. If you include a `"title"` key or an `href`
+in `nav` or `footer.links` anyway, it is ignored rather than breaking your
+document.
 
 ### `images` - every picture on the page
 

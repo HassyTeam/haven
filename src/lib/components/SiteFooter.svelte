@@ -1,19 +1,20 @@
 <script lang="ts">
   // Where to find Hack Club: the same links on every page. A city page may
-  // reword the paragraphs and swap the artwork, but not the links.
+  // reword the paragraphs and the link labels, and swap the artwork, but not
+  // where the links go.
   import { footerLinks } from "$lib/data/content";
   import { defaultSiteData } from "$lib/data/site";
   import type { SiteImages } from "$lib/data/images";
-  import type { Linked } from "$lib/data/types";
+  import type { SiteData } from "$lib/data/types";
 
   interface Props {
     images?: SiteImages;
-    body?: Linked[];
+    footer?: SiteData["footer"];
   }
 
   let {
     images = defaultSiteData.images,
-    body = defaultSiteData.footer.body,
+    footer = defaultSiteData.footer,
   }: Props = $props();
 </script>
 
@@ -47,7 +48,7 @@
                 href={link.href}
                 class="font-display text-[clamp(0.75rem,3vw,1.5em)] leading-1 tracking-[-0.05em] transition-colors hover:text-haven-yellow"
               >
-                {link.label}
+                {footer.links[link.key]}
               </a>
             </li>
           {/each}
@@ -58,7 +59,7 @@
     <div
       class="flex flex-col gap-4 font-body text-[clamp(0.5rem,1.65vw,1rem)] leading-[1.4] md:pt-[clamp(1rem,3vw,2rem)]"
     >
-      {#each body as paragraph, i (i)}
+      {#each footer.body as paragraph, i (i)}
         <p>{#each paragraph as seg}{#if seg.href}<a
                 class="underline decoration-from-font underline-offset-2 hover:text-haven-yellow"
                 href={seg.href}
