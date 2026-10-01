@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import type { City, HavenMapHandle } from '$lib/map';
+  import { readGeoCookie, type GeoPoint } from '$lib/geo';
   import 'maplibre-gl/dist/maplibre-gl.css';
 
   type Props = {
@@ -35,6 +36,16 @@
     // lives in the synchronous return below and coordinates through `disposed`.
     let disposed = false;
 
+    // A cached location centers the map on first paint. Without one the map
+    // opens on every city and flies over once `/api/geo` answers (and caches).
+    const cached = readGeoCookie();
+    const located: Promise<GeoPoint | null> =
+      cached !== undefined
+        ? Promise.resolve(cached)
+        : fetch('/api/geo')
+            .then((res) => (res.ok ? res.json() : null))
+            .catch(() => null);
+
     // MapLibre touches `window` on import, so it can only be pulled in once
     // we're past SSR. A static import at the top would break the server render.
     import('$lib/map').then(({ createHavenMap }) => {
@@ -46,6 +57,7 @@
         assetsUrl,
         accent,
         pinImageUrl,
+        focus: cached ?? undefined,
         onError: (error) => {
           console.error('[haven-map]', error);
           failed = true;
@@ -54,6 +66,12 @@
       if (disposed) {
         handle.destroy();
         handle = null;
+        return;
+      }
+      if (cached === undefined) {
+        located.then((point) => {
+          if (point && !disposed) handle?.focusOn(point);
+        });
       }
     });
 
