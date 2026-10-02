@@ -257,10 +257,9 @@ async function sendSignupLeaderboard({ daily }: { daily: boolean }) {
   }));
   const total = ranked.reduce((sum, e) => sum + e.count, 0);
   const gained = ranked.reduce((sum, e) => sum + Math.max(e.gained, 0), 0);
-  const movers = ranked
-    .filter((e) => e.gained > 0)
-    .sort((a, b) => b.gained - a.gained)
-    .slice(0, 10);
+  // Sorting is stable, so events that gained the same keep their signup order.
+  const byGained = [...ranked].sort((a, b) => b.gained - a.gained);
+  const movers = byGained.filter((e) => e.gained > 0).slice(0, 10);
 
   const summary = baseline
     ? `*${total}* signups across *${ranked.length}* events, *+${gained}* since the last leaderboard.`
@@ -292,7 +291,7 @@ async function sendSignupLeaderboard({ daily }: { daily: boolean }) {
         ? [
             {
               type: "data_table",
-              caption: "All events by signups",
+              caption: "All events by new signups",
               page_size: 10,
               row_header_column_index: 1,
               rows: [
@@ -301,7 +300,7 @@ async function sendSignupLeaderboard({ daily }: { daily: boolean }) {
                   text,
                 })),
                 // A table holds at most 200 data rows.
-                ...ranked.slice(0, 200).map((e, i) => [
+                ...byGained.slice(0, 200).map((e, i) => [
                   { type: "raw_number", value: i + 1, text: `${i + 1}` },
                   { type: "raw_text", text: e.name },
                   { type: "raw_number", value: e.count, text: `${e.count}` },

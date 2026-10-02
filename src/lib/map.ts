@@ -29,6 +29,8 @@ export type HavenMapOptions = {
   accent?: string;
   /** Custom pin icon URL. Falls back to a generated teardrop tinted by `accent`. */
   pinImageUrl?: string;
+  /** Open centered here instead of fitting every city, e.g. the visitor's location. */
+  focus?: { lat: number; lng: number };
   onError?: (error: unknown) => void;
 };
 
@@ -36,11 +38,15 @@ export type HavenMapHandle = {
   map: MaplibreMap;
   /** Swap the pins without rebuilding the map — for filter UI. */
   setCities: (cities: City[]) => void;
+  /** Move to a point, unless the visitor has already moved the map themselves. */
+  focusOn: (point: { lat: number; lng: number }) => void;
   destroy: () => void;
 };
 
 const ASSETS_DEFAULT = "https://protomaps.github.io/basemaps-assets";
 const PIN_IMAGE_ID = "haven-pin";
+/** Roughly a region: an IP lookup is only accurate to a city or country, and neighbouring cities stay in view. */
+const FOCUS_ZOOM = 4;
 
 /**
  * Both of these register globally, so they must happen once per page rather
@@ -136,9 +142,11 @@ export function createHavenMap({
   assetsUrl = ASSETS_DEFAULT,
   accent = "#ec3750",
   pinImageUrl,
+  focus,
   onError,
 }: HavenMapOptions): HavenMapHandle {
   let cities = initialCities;
+  let userMoved = false;
 
   registerMaplibreGlobals();
 
@@ -158,8 +166,8 @@ export function createHavenMap({
       },
       layers: layers("protomaps", namedFlavor("light"), { lang: "en" }),
     },
-    center: [10, 25],
-    zoom: 1.4,
+    center: focus ? [focus.lng, focus.lat] : [10, 25],
+    zoom: focus ? FOCUS_ZOOM : 1.4,
     // The archive stops at z6; past z7 MapLibre upscales and the basemap blurs.
     maxZoom: 7,
     minZoom: 1,
@@ -174,6 +182,10 @@ export function createHavenMap({
     "top-right",
   );
   map.on("error", (e) => onError?.(e.error));
+  // Only gestures carry an `originalEvent`; our own camera moves don't.
+  map.on("movestart", (e) => {
+    if (e.originalEvent) userMoved = true;
+  });
 
   map.on("load", async () => {
     try {
@@ -243,7 +255,7 @@ export function createHavenMap({
       },
     });
 
-    fitToCities();
+    if (!focus) fitToCities();
   });
 
   function fitToCities() {
@@ -298,6 +310,12 @@ export function createHavenMap({
       cities = next;
       const source = map.getSource("cities") as GeoJSONSource | undefined;
       source?.setData(toFeatureCollection(next));
+    },
+    focusOn({ lat, lng }) {
+      if (userMoved) return;
+      const options = { center: [lng, lat] as [number, number], zoom: FOCUS_ZOOM };
+      if (prefersReducedMotion()) map.jumpTo(options);
+      else map.flyTo({ ...options, duration: 1600 });
     },
     destroy() {
       popup.remove();
