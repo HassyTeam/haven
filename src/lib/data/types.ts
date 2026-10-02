@@ -177,7 +177,7 @@ export interface SiteData {
     tbd: { title: string; body: string };
     days: ScheduleDay[];
   };
-  pastEvents: { heading: string[]; items: PastEvent[] };
+  pastEvents: { heading: string[]; items: PastEvent[]; safety: string };
   sponsors: { heading: string; items: Sponsor[] };
   faq: { heading: string; cta: string; items: FaqItem[] };
   /** The "who is Hack Club" paragraphs, and the labels (not the targets) of
@@ -266,6 +266,7 @@ export const siteDataInputSchema = z.object({
     .object({
       heading: z.string().array().optional(),
       items: pastEventSchema.array().optional(),
+      safety: z.string().optional(),
     })
     .optional(),
   sponsors: z

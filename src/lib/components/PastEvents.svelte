@@ -6,11 +6,13 @@
     /** One line per entry. */
     heading?: string[];
     items?: PastEvent[];
+    safety?: string;
   }
 
   let {
     heading = defaultSiteData.pastEvents.heading,
     items = defaultSiteData.pastEvents.items,
+    safety = defaultSiteData.pastEvents.safety,
   }: Props = $props();
 
   const stage = [
@@ -26,7 +28,8 @@
   <h2
     class="mx-auto max-w-[42ch] -rotate-3 text-center font-display text-subheading text-white pt-[clamp(6rem,40vw,20rem)] md:pt-0 md:absolute md:left-[15.2%] md:top-[20%] md:w-[71.1%] md:max-w-none md:-rotate-4 md:text-[2.43cqw] md:leading-[0.9]"
   >
-    {#each heading as line, lineIndex (lineIndex)}<span class="block">{line}</span
+    {#each heading as line, lineIndex (lineIndex)}<span class="block"
+        >{line}</span
       >{/each}
   </h2>
 
@@ -74,4 +77,10 @@
       </p>
     </article>
   {/each}
+
+  <h2
+    class="pointer-event-none mx-auto max-w-[42ch] -rotate-3 text-center font-display text-subheading text-white pt-[clamp(2rem,4vw,8rem)] md:pt-0 md:absolute md:left-[15.2%] md:bottom-[clamp(10%,20vw,18%)] md:w-[71.1%] md:px-[clamp(1.25rem,6vw,6rem)] md:max-w-none md:-rotate-4 md:text-[1.5cqw] md:leading-[0.9]"
+  >
+    {@html safety}
+  </h2>
 </section>

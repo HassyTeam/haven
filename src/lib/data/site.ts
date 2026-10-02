@@ -13,6 +13,7 @@ import {
   organizeCta,
   pastEvents,
   pastEventsHeading,
+  pastEventsSafety,
   perks,
   pitchHeading,
   pitches,
@@ -54,7 +55,7 @@ export const defaultSiteData: SiteData = {
     cta: stepsCta,
   },
   schedule: { heading: scheduleHeading, tbd: { ...scheduleTbd }, days: [] },
-  pastEvents: { heading: [...pastEventsHeading], items: pastEvents },
+  pastEvents: { heading: [...pastEventsHeading], items: pastEvents, safety: pastEventsSafety.join(" ") },
   sponsors: { heading: supportersHeading, items: supporters },
   faq: { heading: faqHeading, cta: faqCta, items: faqs },
   footer: {
@@ -135,6 +136,7 @@ export function resolveSiteData(
     pastEvents: {
       heading: data.pastEvents?.heading ?? base.pastEvents.heading,
       items: data.pastEvents?.items ?? base.pastEvents.items,
+      safety: data.pastEvents?.safety ?? base.pastEvents.safety,
     },
     sponsors: {
       // A city's sponsors are its own, so the home page's stand-ins are not a

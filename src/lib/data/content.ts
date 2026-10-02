@@ -286,6 +286,10 @@ export const pastEventsHeading = [
   "Check out some of our past events ~",
 ];
 
+export const pastEventsSafety = [
+  'We take safety seriously. You can see our parent guide <a href="https://docs.google.com/document/d/1NKjI_6sksQOKyrdeE1wEJZYSWEvix8LB74sIF2vokoI/edit?usp=sharing" class="text-haven-butter underline">here</a>, or they can reach out to us at <a href="mailto:haven@hackclub.com" class="text-haven-butter underline">haven@hackclub.com</a> for questions.',
+];
+
 export const pastEvents: PastEvent[] = [
   {
     title: "Scrapyard",
@@ -340,7 +344,7 @@ export const supporters: Sponsor[] = [
 export const sponsorsHeading = "Our sponsors";
 
 const HAVEN_GUIDE_LINK =
-  "https://docs.google.com/document/d/1f_uFvFP4gD01YhXBmU9jBfEBU9QMvr1L5yJTKWBBhbA/edit?usp=sharing";
+  "https://docs.google.com/document/d/1NKjI_6sksQOKyrdeE1wEJZYSWEvix8LB74sIF2vokoI/edit?usp=sharing";
 const HAVEN_EMAIL = "mailto:haven@hackclub.com";
 
 export const faqHeading = "FAQ";
