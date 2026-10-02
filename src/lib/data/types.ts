@@ -24,7 +24,8 @@ const hrefSchema = z
   .trim()
   .regex(SAFE_HREF, "must be an http(s), mailto:, /-relative or #anchor link")
   .refine((value) => !URL_METACHARS.test(value), {
-    message: "must not contain quotes, brackets or spaces (percent-encode them)",
+    message:
+      "must not contain quotes, brackets or spaces (percent-encode them)",
   });
 
 const srcSchema = z
@@ -32,7 +33,8 @@ const srcSchema = z
   .trim()
   .regex(SAFE_SRC, "must be an http(s) URL or a /-relative path")
   .refine((value) => !URL_METACHARS.test(value), {
-    message: "must not contain quotes, brackets or spaces (percent-encode them)",
+    message:
+      "must not contain quotes, brackets or spaces (percent-encode them)",
   });
 
 /** Which part of a photo to keep when it is cropped. A fixed set, because the
@@ -58,6 +60,16 @@ const linkedSchema = z
   .object({ text: z.string(), href: hrefSchema.optional() })
   .array();
 export type Linked = z.infer<typeof linkedSchema>;
+
+/**
+ * The safety line under the past events was briefly raw HTML. A string written
+ * then is kept as plain text (escaped, never parsed) so those rows still render.
+ */
+const safetySchema = z
+  .union([z.string(), linkedSchema])
+  .transform((value) =>
+    typeof value === "string" ? [{ text: value }] : value,
+  );
 
 const linkSchema = z.object({ label: z.string(), href: hrefSchema });
 export type Link = z.infer<typeof linkSchema>;
@@ -154,7 +166,9 @@ const fontSchema = z
     fontFamilySchema,
     z.object({ family: fontFamilySchema, src: srcSchema.optional() }),
   ])
-  .transform((value) => (typeof value === "string" ? { family: value } : value));
+  .transform((value) =>
+    typeof value === "string" ? { family: value } : value,
+  );
 
 export interface SiteData {
   /** Labels only; where each link goes is fixed. */
@@ -167,7 +181,7 @@ export interface SiteData {
     organizeCta: string;
     mapLabel: string;
     scrollLabel: string;
-    signup: { placeholder: string; button: string };
+    signup: { placeholder: string; button: string; lang?: string };
   };
   about: { title: string; body: string; perks: Perk[] };
   pitch: { heading: string; items: PitchItem[] };
@@ -177,7 +191,7 @@ export interface SiteData {
     tbd: { title: string; body: string };
     days: ScheduleDay[];
   };
-  pastEvents: { heading: string[]; items: PastEvent[]; safety: string };
+  pastEvents: { heading: string[]; items: PastEvent[]; safety: Linked };
   sponsors: { heading: string; items: Sponsor[] };
   faq: { heading: string; cta: string; items: FaqItem[] };
   /** The "who is Hack Club" paragraphs, and the labels (not the targets) of
@@ -229,6 +243,13 @@ export const siteDataInputSchema = z.object({
         .object({
           placeholder: z.string().optional(),
           button: z.string().optional(),
+          /** Two-letter language code sent to the signup form as `?lang=`. */
+          lang: z
+            .string()
+            .trim()
+            .regex(/^[A-Za-z]{2}$/, "must be a two-letter language code")
+            .transform((value) => value.toLowerCase())
+            .optional(),
         })
         .optional(),
     })
@@ -266,7 +287,7 @@ export const siteDataInputSchema = z.object({
     .object({
       heading: z.string().array().optional(),
       items: pastEventSchema.array().optional(),
-      safety: z.string().optional(),
+      safety: safetySchema.optional(),
     })
     .optional(),
   sponsors: z

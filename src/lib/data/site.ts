@@ -55,7 +55,11 @@ export const defaultSiteData: SiteData = {
     cta: stepsCta,
   },
   schedule: { heading: scheduleHeading, tbd: { ...scheduleTbd }, days: [] },
-  pastEvents: { heading: [...pastEventsHeading], items: pastEvents, safety: pastEventsSafety.join(" ") },
+  pastEvents: {
+    heading: [...pastEventsHeading],
+    items: pastEvents,
+    safety: pastEventsSafety,
+  },
   sponsors: { heading: supportersHeading, items: supporters },
   faq: { heading: faqHeading, cta: faqCta, items: faqs },
   footer: {
@@ -109,6 +113,7 @@ export function resolveSiteData(
         placeholder:
           data.hero?.signup?.placeholder ?? base.hero.signup.placeholder,
         button: data.hero?.signup?.button ?? base.hero.signup.button,
+        lang: data.hero?.signup?.lang,
       },
     },
     about: {

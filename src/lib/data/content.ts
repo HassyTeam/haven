@@ -10,7 +10,8 @@ import type {
 
 export const meta = {
   title: "Haven — Come join a game jam in your city!",
-  description: "Hack Club Haven is a global game jam in 200+ cities worldwide for teenagers 13-18",
+  description:
+    "Hack Club Haven is a global game jam in 200+ cities worldwide for teenagers 13-18",
   image: "/images/haven-logo-color.webp",
 } as const;
 
@@ -286,8 +287,15 @@ export const pastEventsHeading = [
   "Check out some of our past events ~",
 ];
 
-export const pastEventsSafety = [
-  'We take safety seriously. You can see our parent guide <a href="https://docs.google.com/document/d/1NKjI_6sksQOKyrdeE1wEJZYSWEvix8LB74sIF2vokoI/edit?usp=sharing" class="text-haven-butter underline">here</a>, or they can reach out to us at <a href="mailto:haven@hackclub.com" class="text-haven-butter underline">haven@hackclub.com</a> for questions.',
+export const pastEventsSafety: Linked = [
+  { text: "We take safety seriously. You can see our parent guide " },
+  {
+    text: "here",
+    href: "https://docs.google.com/document/d/1NKjI_6sksQOKyrdeE1wEJZYSWEvix8LB74sIF2vokoI/edit?usp=sharing",
+  },
+  { text: ", or they can reach out to us at " },
+  { text: "haven@hackclub.com", href: "mailto:haven@hackclub.com" },
+  { text: " for questions." },
 ];
 
 export const pastEvents: PastEvent[] = [

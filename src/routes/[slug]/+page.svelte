@@ -25,6 +25,7 @@
     const url = new URL(data.signupUrl)
     url.searchParams.set('event', data.eventId)
     if (data.ref) url.searchParams.set('ref', data.ref)
+    if (site.hero.signup.lang) url.searchParams.set('lang', site.hero.signup.lang)
     return url.toString()
   })
 

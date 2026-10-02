@@ -1,12 +1,12 @@
 <script lang="ts">
   import { defaultSiteData } from "$lib/data/site";
-  import type { PastEvent } from "$lib/data/types";
+  import type { Linked, PastEvent } from "$lib/data/types";
 
   interface Props {
     /** One line per entry. */
     heading?: string[];
     items?: PastEvent[];
-    safety?: string;
+    safety?: Linked;
   }
 
   let {
@@ -81,6 +81,12 @@
   <h2
     class="pointer-event-none mx-auto max-w-[42ch] -rotate-3 text-center font-display text-subheading text-white pt-[clamp(2rem,4vw,8rem)] md:pt-0 md:absolute md:left-[15.2%] md:bottom-[clamp(10%,20vw,18%)] md:w-[71.1%] md:px-[clamp(1.25rem,6vw,6rem)] md:max-w-none md:-rotate-4 md:text-[1.5cqw] md:leading-[0.9]"
   >
-    {@html safety}
+    {#each safety as seg, i (i)}{#if seg.href}<a
+          class="text-haven-butter underline"
+          href={seg.href}
+          target={seg.href.startsWith("http") ? "_blank" : undefined}
+          rel={seg.href.startsWith("http") ? "noopener" : undefined}
+          >{seg.text}</a
+        >{:else}{seg.text}{/if}{/each}
   </h2>
 </section>

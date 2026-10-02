@@ -464,12 +464,12 @@ illustration, so **the first three entries land in those three spots, in
 order**. A fourth sign will not have a spot and stacks underneath the picture
 instead - three is the number to aim for.
 
-| Field    | What it is                                                                             |
-| -------- | -------------------------------------------------------------------------------------- |
-| `title`  | The heading on the sign.                                                               |
-| `side`   | `"start"` or `"end"` - which way the signpost leans.                                   |
-| `blurb`  | The line(s) under the photos.                                                          |
-| `photos` | Two photos per sign looks right. Each has a `src` and an `alt`.                        |
+| Field    | What it is                                                      |
+| -------- | --------------------------------------------------------------- |
+| `title`  | The heading on the sign.                                        |
+| `side`   | `"start"` or `"end"` - which way the signpost leans.            |
+| `blurb`  | The line(s) under the photos.                                   |
+| `photos` | Two photos per sign looks right. Each has a `src` and an `alt`. |
 
 In a photo, `alt` describes it for people using a screen reader, `href` makes it
 clickable, and `caption` (`{ "title": ..., "author": ... }`) prints a credit
@@ -514,13 +514,13 @@ in later.
 `heading` is a list, one line per entry. `items` are the cards, and again there
 are **three spots**.
 
-| Field           | What it is                                                                                            |
-| --------------- | ----------------------------------------------------------------------------------------------------- |
-| `title`         | The name above the photo.                                                                             |
-| `image` / `alt` | The photo and its description.                                                                        |
-| `caption`       | The sentence under it.                                                                                |
-| `href`          | Where clicking it goes - usually a video.                                                             |
-| `play`          | The play triangle drawn over the photo.                                                               |
+| Field           | What it is                                                                                                                                                                                   |
+| --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `title`         | The name above the photo.                                                                                                                                                                    |
+| `image` / `alt` | The photo and its description.                                                                                                                                                               |
+| `caption`       | The sentence under it.                                                                                                                                                                       |
+| `href`          | Where clicking it goes - usually a video.                                                                                                                                                    |
+| `play`          | The play triangle drawn over the photo.                                                                                                                                                      |
 | `position`      | Optional. Picks which part of a photo to keep when it is cropped. One of `"object-top"`, `"object-bottom"`, `"object-center"`, `"object-left"`, `"object-right"` - anything else is refused. |
 
 ### `sponsors` - logos
