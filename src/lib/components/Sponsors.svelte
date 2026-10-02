@@ -220,7 +220,7 @@
               ]}
             />
             <ul
-              class="relative flex items-center z-10 gap-[clamp(0rem,8vw,5rem)] pt-[clamp(3rem,14vw,12rem)] sm:pt-[clamp(3rem,8vw,8rem)] md:pt-[clamp(2rem,10vw+100/vw,8rem)] px-[clamp(2rem,15vw,15rem)]"
+              class="relative flex items-start z-10 gap-[clamp(0rem,8vw,5rem)] pt-[clamp(3rem,14vw,12rem)] sm:pt-[clamp(3rem,8vw,8rem)] md:pt-[clamp(2rem,10vw+100/vw,8rem)] px-[clamp(2rem,15vw,15rem)]"
             >
               {#each row as item, itemIndex (itemIndex)}
                 <li
@@ -233,14 +233,14 @@
                     href={item.href}
                     target="_blank"
                     rel="noopener"
-                    class="block transition-transform hover:scale-[1.02] active:scale-100"
+                    class="block w-full transition-transform hover:scale-[1.02] active:scale-100"
                   >
                     <img
                       src={item.image}
                       alt={item.name}
                       loading="lazy"
                       decoding="async"
-                      class="relative mx-auto max-h-[clamp(2rem,10vw,12rem)] z-20 w-full max-w-32 object-contain"
+                      class="relative mx-auto h-[clamp(2rem,10vw,8rem)] z-20 w-full max-w-32 object-contain"
                     />
                     <p
                       class="text-white md:text-[clamp(0.5rem,2vw,2rem)] md:leading-[1.05] md:pt-[clamp(0.5rem,1.2vw,1.2rem)]"
