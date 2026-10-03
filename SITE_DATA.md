@@ -254,6 +254,16 @@ in. Copy it, delete what you are not editing, and change the rest.
         "href": "https://www.youtube.com/watch?v=0aMAHuLxg3s",
         "position": "object-bottom"
       }
+    ],
+    "safety": [
+      { "text": "We take safety seriously. You can see our parent guide " },
+      {
+        "text": "here",
+        "href": "https://docs.google.com/document/d/1NKjI_6sksQOKyrdeE1wEJZYSWEvix8LB74sIF2vokoI/edit?usp=sharing"
+      },
+      { "text": ", or they can reach out to us at " },
+      { "text": "haven@hackclub.com", "href": "mailto:haven@hackclub.com" },
+      { "text": " for questions." }
     ]
   },
   "sponsors": {
@@ -522,6 +532,11 @@ are **three spots**.
 | `href`          | Where clicking it goes - usually a video.                                                                                                                                                    |
 | `play`          | The play triangle drawn over the photo.                                                                                                                                                      |
 | `position`      | Optional. Picks which part of a photo to keep when it is cropped. One of `"object-top"`, `"object-bottom"`, `"object-center"`, `"object-left"`, `"object-right"` - anything else is refused. |
+
+`safety` is the line under the cards that points parents to the parent guide.
+It is a list of pieces like an FAQ answer (see `faq` below), so a piece with an
+`href` becomes a link. It replaces the whole line, so if you change it, keep the
+parent guide link and a way to contact you.
 
 ### `sponsors` - logos
 
