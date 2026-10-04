@@ -23,7 +23,8 @@
     origSite.langs?.find((p) => p.lang == langState) || origSite,
   );
 
-  const langs = $derived([...(origSite.langs ?? []), {lang: origSite.defaultLang, prettyLang: origSite.defaultPrettyLang}])
+  // This works because the site (above) returns origSite if the language is invalid (like the default one is).
+  const langs = $derived([{ lang: origSite.defaultLang, prettyLang: origSite.defaultPrettyLang }, ...(origSite.langs ?? [])])
 
   const images = $derived(site.images);
   const pageTitle = $derived(
