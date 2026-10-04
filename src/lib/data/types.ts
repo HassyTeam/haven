@@ -218,14 +218,7 @@ const faqSectionSchema = z
   ])
   .transform((value) => (Array.isArray(value) ? { items: value } : value));
 
-export const siteDataInputSchema = z.object({
-  meta: z
-    .object({
-      title: z.string().optional(),
-      description: z.string().optional(),
-      image: srcSchema.optional(),
-    })
-    .optional(),
+export const baseSiteDataInputSchema = z.object({
   nav: z
     .object({
       signup: z.string().optional(),
@@ -313,6 +306,16 @@ export const siteDataInputSchema = z.object({
   images: imagesSchema.optional(),
   fonts: z
     .object({ display: fontSchema.optional(), body: fontSchema.optional() })
+    .optional(),
+});
+
+export const siteDataInputSchema = baseSiteDataInputSchema.extend({
+  meta: z
+    .object({
+      title: z.string().optional(),
+      description: z.string().optional(),
+      image: srcSchema.optional(),
+    })
     .optional(),
 });
 
