@@ -53,7 +53,6 @@
   // The page can load already scrolled (a reload, or a #hash target).
   $effect(() => {
     scrolled = window.scrollY > 10;
-    console.log(origSite)
   });
 </script>
 
