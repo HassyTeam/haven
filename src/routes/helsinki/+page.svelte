@@ -23,10 +23,7 @@
     origSite.langs?.find((p) => p.lang == langState) || origSite,
   );
 
-  const langs = $derived.by(() => {
-    origSite.langs?.push({ lang: origSite.defaultLang, prettyLang: origSite.defaultPrettyLang, ...origSite });
-    return origSite.langs
-  });
+  const langs = $derived([...(origSite.langs ?? []), {lang: origSite.defaultLang, prettyLang: origSite.defaultPrettyLang}])
 
   const images = $derived(site.images);
   const pageTitle = $derived(
